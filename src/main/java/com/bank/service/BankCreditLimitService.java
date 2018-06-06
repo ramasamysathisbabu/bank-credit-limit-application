@@ -64,7 +64,7 @@ public class BankCreditLimitService {
 		if (respEntity.isPresent() && HttpStatus.OK.equals(respEntity.get().getStatusCode())) {
 			responseHeaders.set(X_REQUEST_ID, respEntity.get().getHeaders().getFirst(X_REQUEST_ID));
 			CreditLimitEligibilityResponse serviceResponseContent = respEntity.get().getBody();
-			customerResponse.setEligibilityStatus(serviceResponseContent.getEligibilityStatus());
+			customerResponse.setApprovalStatus("yes".equalsIgnoreCase(serviceResponseContent.getEligibilityStatus()) ? "Approved" : "Rejected");
 			customerResponse.setNewCreditLimitAmount(serviceResponseContent.getNewCreditLimitAmount());
 			customerResponse.setError(serviceResponseContent.getError());
 		} else {

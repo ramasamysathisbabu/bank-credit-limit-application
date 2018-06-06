@@ -1,16 +1,10 @@
 package com.bank.entities;
 
 public class CustomerResponse {
-	private String eligibilityStatus;
+	private String approvalStatus;
 	private String newCreditLimitAmount;
 	private String error;
 	
-	public String getEligibilityStatus() {
-		return eligibilityStatus;
-	}
-	public void setEligibilityStatus(String eligibilityStatus) {
-		this.eligibilityStatus = eligibilityStatus;
-	}
 	public String getNewCreditLimitAmount() {
 		return newCreditLimitAmount;
 	}
@@ -23,12 +17,16 @@ public class CustomerResponse {
 	public void setError(String error) {
 		this.error = error;
 	}
+	public String getApprovalStatus() {
+		return approvalStatus;
+	}
+	public void setApprovalStatus(String approvalStatus) {
+		this.approvalStatus = approvalStatus;
+	}
 	@Override
 	public String toString() {
-		return "CreditLimitEligibilityResponse [eligibilityStatus=" + eligibilityStatus + ", newCreditLimitAmount="
-				+ newCreditLimitAmount + ", error=" + error + "]";
+		return "CustomerResponse [approvalStatus=" + approvalStatus + ", newCreditLimitAmount=" + newCreditLimitAmount
+				+ ", error=" + error + "]";
 	}
 
-	
-	
 }
