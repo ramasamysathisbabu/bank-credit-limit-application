@@ -26,33 +26,33 @@ Rest Response : {
 }<br />
 
 
-9) Payload for Failure/Rejected scenario - Rest Request & Response
-Rest end point: http://localhost:6060/credit/increase
-Rest Method   : POST
+9) Payload for Failure/Rejected scenario - Rest Request & Response<br />
+Rest end point: http://localhost:6060/credit/increase<br />
+Rest Method   : POST<br />
 Rest Request  : {
   "name": "Dave",
   "ssn": "100000001",
   "creditCardNumber": "1111333355557777",
   "zipCode": "12345"
-}
+}<br />
 Rest Response : {
   "approvalStatus": "Rejected",
   "newCreditLimitAmount": "0",
   "error": null
-}
+}<br />
 
 
-10) Payload for Error scenario - Rest Request & Response
-Rest end point: http://localhost:6060/credit/increase
-Rest Method   : POST
+10) Payload for Error scenario - Rest Request & Response<br />
+Rest end point: http://localhost:6060/credit/increase<br />
+Rest Method   : POST<br />
 Rest Request  : {
   "name": "Dave",
   "ssn": "100000005",
   "creditCardNumber": "1111333355557777",
   "zipCode": "12345"
-}
+}<br />
 Rest Response : {
   "approvalStatus": "Rejected",
   "newCreditLimitAmount": "0",
   "error": "Could not identify the customer"
-}
+}<br />
