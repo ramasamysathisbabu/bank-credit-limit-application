@@ -1,0 +1,76 @@
+{
+	"id": "a9979bf2-151c-9ea4-ecf1-9aa321c92574",
+	"name": "Credit-Limit-Increase",
+	"description": "",
+	"order": [
+		"c23075fb-41d8-bd49-c4ac-88994e5ff6e9",
+		"d874c86d-fea2-b1f3-9a4b-0a8d7e52c8e0"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1528167510439,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "c23075fb-41d8-bd49-c4ac-88994e5ff6e9",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:6060/credit/increase",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1528233704983,
+			"name": "Customer-Credit-Line-Request",
+			"description": "",
+			"collectionId": "a9979bf2-151c-9ea4-ecf1-9aa321c92574",
+			"responses": [],
+			"rawModeData": "{\n\t\"name\":\"Dave\",\n\t\"ssn\":\"100000003\",\n\t\"creditCardNumber\":\"1111333355557777\",\n\t\"zipCode\":\"43235\"\n}"
+		},
+		{
+			"id": "d874c86d-fea2-b1f3-9a4b-0a8d7e52c8e0",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8080/transunion/credit/eligibility",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1528217207323,
+			"name": "Agent-Credit-Line-Request",
+			"description": "",
+			"collectionId": "a9979bf2-151c-9ea4-ecf1-9aa321c92574",
+			"responses": [],
+			"rawModeData": "{\n\t\"ssn\" : \"100000001\"\n}"
+		}
+	]
+}
