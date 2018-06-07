@@ -1,6 +1,6 @@
-package com.bank.entities;
+package com.bank.models;
 
-public class CustomerResponse {
+public class CreditLimitResponse {
 	private String approvalStatus;
 	private String newCreditLimitAmount;
 	private String error;

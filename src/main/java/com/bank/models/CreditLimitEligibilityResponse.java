@@ -1,4 +1,4 @@
-package com.bank.entities;
+package com.bank.models;
 
 public class CreditLimitEligibilityResponse {
 	private String eligibilityStatus;

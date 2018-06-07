@@ -1,7 +1,13 @@
-package com.bank.entities;
+package com.bank.models;
+
+import javax.validation.constraints.NotNull;
 
 public class ErrorDetails {
+	
+	  @NotNull
 	  private String field;
+	  
+	  @NotNull
 	  private String error;
 	  
 	public String getField() {

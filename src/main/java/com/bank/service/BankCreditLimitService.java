@@ -13,14 +13,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.bank.entities.CreditLimitEligibilityRequest;
-import com.bank.entities.CreditLimitEligibilityResponse;
-import com.bank.entities.CustomerResponse;
+import com.bank.models.CreditLimitEligibilityRequest;
+import com.bank.models.CreditLimitEligibilityResponse;
+import com.bank.models.CreditLimitResponse;
 
 @Service
 public class BankCreditLimitService {
 
 	private final String X_REQUEST_ID = "X-Request-ID";
+	private final String APPROVED = "Approved";
+	private final String REJECTED = "Rejected";
+	private final String SUCCESS_MESSAGE = "Your new credit limit is ";
+	private final String CREDIT_AGENCY_APPROVAL_STATUS = "yes";
 
 	@Autowired
 	RestTemplate restTemplate;
@@ -31,7 +35,7 @@ public class BankCreditLimitService {
 	@Value("${credit.agency.authorization.token.value}")
 	private String creditAgencyAuthorizationTokenValue;
 
-	public ResponseEntity<CustomerResponse> requestCreditLimitIncreaseEligibility(String ssn) {
+	public ResponseEntity<CreditLimitResponse> requestCreditLimitIncrease(String ssn) {
 		ResponseEntity<CreditLimitEligibilityResponse> responseEntity = null;
 		CreditLimitEligibilityRequest request = new CreditLimitEligibilityRequest();
 		request.setSsn(ssn);
@@ -46,17 +50,17 @@ public class BankCreditLimitService {
 			responseEntity = restTemplate.exchange(creditAgencyServiceUrl, HttpMethod.POST, entity,
 					CreditLimitEligibilityResponse.class);
 		} catch (Exception e) {
-			CustomerResponse customerResponse = new CustomerResponse();
-			customerResponse.setError("Credit decisioning system down");
-			return new ResponseEntity<CustomerResponse>(customerResponse, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+			CreditLimitResponse creditLimitResponse = new CreditLimitResponse();
+			creditLimitResponse.setError("Credit decisioning system down");
+			return new ResponseEntity<CreditLimitResponse>(creditLimitResponse, headers, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return transformServiceResponse(responseEntity);
 	}
 
-	public ResponseEntity<CustomerResponse> transformServiceResponse(
+	public ResponseEntity<CreditLimitResponse> transformServiceResponse(
 			ResponseEntity<CreditLimitEligibilityResponse> responseEntity) {
 
-		CustomerResponse customerResponse = new CustomerResponse();
+		CreditLimitResponse creditLimitResponse = new CreditLimitResponse();
 		HttpHeaders responseHeaders = new HttpHeaders();
 
 		Optional<ResponseEntity<CreditLimitEligibilityResponse>> respEntity = Optional.of(responseEntity);
@@ -64,15 +68,16 @@ public class BankCreditLimitService {
 		if (respEntity.isPresent() && HttpStatus.OK.equals(respEntity.get().getStatusCode())) {
 			responseHeaders.set(X_REQUEST_ID, respEntity.get().getHeaders().getFirst(X_REQUEST_ID));
 			CreditLimitEligibilityResponse serviceResponseContent = respEntity.get().getBody();
-			customerResponse.setApprovalStatus("yes".equalsIgnoreCase(serviceResponseContent.getEligibilityStatus()) ? "Approved" : "Rejected");
-			customerResponse.setNewCreditLimitAmount(serviceResponseContent.getNewCreditLimitAmount());
-			customerResponse.setError(serviceResponseContent.getError());
+			creditLimitResponse.setApprovalStatus(CREDIT_AGENCY_APPROVAL_STATUS.equalsIgnoreCase(serviceResponseContent.getEligibilityStatus()) ? APPROVED : REJECTED);
+			String creditLimitAmount = serviceResponseContent.getNewCreditLimitAmount();
+			creditLimitResponse.setNewCreditLimitAmount(CREDIT_AGENCY_APPROVAL_STATUS.equalsIgnoreCase(serviceResponseContent.getEligibilityStatus()) ? SUCCESS_MESSAGE + creditLimitAmount : creditLimitAmount);
+			creditLimitResponse.setError(serviceResponseContent.getError());
 		} else {
-			customerResponse.setError("Sorry, our application is down at present. Please try again later");
+			creditLimitResponse.setError("Sorry, our application is down at present. Please try again later");
 			responseHeaders.set(X_REQUEST_ID, respEntity.get().getHeaders().getFirst(X_REQUEST_ID));
 		}
 		
-		return new ResponseEntity<CustomerResponse>(customerResponse, responseHeaders, HttpStatus.OK);
+		return new ResponseEntity<CreditLimitResponse>(creditLimitResponse, responseHeaders, HttpStatus.OK);
 	}
 
 }
