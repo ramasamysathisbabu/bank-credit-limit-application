@@ -23,37 +23,49 @@
 					"enabled": true
 				}
 			],
-			"url": "http://localhost:6060/credit/increase",
+			"url": "http://localhost:6060/creditcard/limits",
 			"queryParams": [],
 			"preRequestScript": null,
 			"pathVariables": {},
 			"pathVariableData": [],
-			"method": "POST",
+			"method": "PUT",
 			"data": [],
 			"dataMode": "raw",
 			"version": 2,
 			"tests": null,
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1528233704983,
+			"time": 1528330733898,
 			"name": "Customer-Credit-Line-Request",
 			"description": "",
 			"collectionId": "a9979bf2-151c-9ea4-ecf1-9aa321c92574",
 			"responses": [],
-			"rawModeData": "{\n\t\"name\":\"Dave\",\n\t\"ssn\":\"100000003\",\n\t\"creditCardNumber\":\"1111333355557777\",\n\t\"zipCode\":\"43235\"\n}"
+			"rawModeData": "{\n\t\"name\":\"Dave\",\n\t\"ssn\":\"100000001\",\n\t\"creditCardNumber\":\"1111333355557777\",\n\t\"zipCode\":\"12345\"\n}"
 		},
 		{
 			"id": "d874c86d-fea2-b1f3-9a4b-0a8d7e52c8e0",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: Bearer PNC-Auth-12345\nX-Request-ID: requestID567789\n",
 			"headerData": [
 				{
 					"key": "Content-Type",
 					"value": "application/json",
 					"description": "",
 					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Bearer PNC-Auth-12345",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "X-Request-ID",
+					"value": "requestID567789",
+					"description": "",
+					"enabled": true
 				}
 			],
-			"url": "http://localhost:8080/transunion/credit/eligibility",
+			"url": "http://localhost:8080/creditcard/limits/eligibility",
 			"queryParams": [],
 			"preRequestScript": null,
 			"pathVariables": {},
@@ -65,12 +77,12 @@
 			"tests": null,
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1528217207323,
+			"time": 1528330729668,
 			"name": "Agent-Credit-Line-Request",
 			"description": "",
 			"collectionId": "a9979bf2-151c-9ea4-ecf1-9aa321c92574",
 			"responses": [],
-			"rawModeData": "{\n\t\"ssn\" : \"100000001\"\n}"
+			"rawModeData": "{\n\t\"ssn\" : \"100000009\"\n}"
 		}
 	]
 }
