@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import com.bank.models.CreditLimitEligibilityRequest;
 import com.bank.models.CreditLimitEligibilityResponse;
 import com.bank.models.CreditLimitResponse;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @Service
 public class BankCreditLimitService {
@@ -35,6 +36,7 @@ public class BankCreditLimitService {
 	@Value("${credit.agency.authorization.token.value}")
 	private String creditAgencyAuthorizationTokenValue;
 
+	@HystrixCommand(fallbackMethod = "requestCreditLimitIncreaseFallback")
 	public ResponseEntity<CreditLimitResponse> requestCreditLimitIncrease(String ssn) {
 		ResponseEntity<CreditLimitEligibilityResponse> responseEntity = null;
 		CreditLimitEligibilityRequest request = new CreditLimitEligibilityRequest();
@@ -80,4 +82,15 @@ public class BankCreditLimitService {
 		return new ResponseEntity<CreditLimitResponse>(creditLimitResponse, responseHeaders, HttpStatus.OK);
 	}
 
+	
+	public ResponseEntity<CreditLimitResponse> requestCreditLimitIncreaseFallback(String ssn){
+		HttpHeaders headers = new HttpHeaders();
+		headers.set(HttpHeaders.AUTHORIZATION, creditAgencyAuthorizationTokenValue);
+		headers.set(X_REQUEST_ID, UUID.randomUUID().toString());
+		
+		CreditLimitResponse creditLimitResponse = new CreditLimitResponse();
+		creditLimitResponse.setError("Please try again later. We could not provide the decision now");
+		return new ResponseEntity<CreditLimitResponse>(creditLimitResponse, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 }

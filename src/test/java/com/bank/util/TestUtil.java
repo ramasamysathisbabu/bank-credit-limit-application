@@ -22,4 +22,13 @@ public class TestUtil {
 		request.setZipCode("43235");
 		return convertObjectToJsonBytes(request);
 	}
+	
+	public static byte[] createCreditLimitIncreaseBadRequestData() throws IOException {
+		CreditLimitRequest request = new CreditLimitRequest();
+		request.setName("TestName");
+		request.setSsn("12345678");
+		request.setCreditCardNumber("1111222233334444");
+		request.setZipCode("43235");
+		return convertObjectToJsonBytes(request);
+	}
 }

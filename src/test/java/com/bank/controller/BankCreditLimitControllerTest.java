@@ -66,4 +66,11 @@ public class BankCreditLimitControllerTest {
 				.andExpect(MockMvcResultMatchers.jsonPath("$.approvalStatus", Matchers.is("yes")))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.newCreditLimitAmount", Matchers.is("12000")));
 	}
+	
+	@Test
+	public void testRequestCreditLimitIncreaseBadRequest() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.put("/creditcard/limits").contentType(MediaType.APPLICATION_JSON)
+				.content(TestUtil.createCreditLimitIncreaseBadRequestData()))
+				.andExpect(MockMvcResultMatchers.status().isBadRequest());
+	}
 }
